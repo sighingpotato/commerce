@@ -28,6 +28,7 @@ public class App {
             double result = calc.calculate(num1, num2, operator);
             System.out.println("결과: " + result);
 
+//            // 람다 스트림 이용
 //            System.out.println("저장된 연산 결과들 중 큰 값만 볼까요? (숫자 입력): ");
 //            double value = scanner.nextDouble();
 

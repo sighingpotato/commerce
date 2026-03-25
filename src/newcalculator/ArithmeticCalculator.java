@@ -49,6 +49,9 @@ public class ArithmeticCalculator<T extends Number> {
 
     // 람다 스트림
 //    public
+//    stream()
+//    filter()
+//    forEach()
 
 }
 
