@@ -20,10 +20,10 @@ public class CommerceSystem {
                 System.out.println((i + 1) + ". " + categories.get(i).getCategoryName());
             }
             System.out.println("0. 종료     | 프로그램 종료");
-            System.out.print("입력 <-");
+            System.out.print("입력 -> ");
 
-            int select = scanner.nextInt();
-            scanner.nextInt();
+            int select;
+            select = scanner.nextInt();
 
             if (select == 0) {
                 System.out.println("커머스 플랫폼을 종료합니다.");
@@ -47,10 +47,10 @@ public class CommerceSystem {
             System.out.println((i + 1) + ". " + product.getName() + "     | " + product.getPrice() + "원 | " + product.getDescription());
         }
         System.out.println("0. 뒤로가기");
-        System.out.print("입력 <- ");
+        System.out.print("입력 -> ");
 
-        int select = scanner.nextInt();
-        scanner.nextInt();
+        int select;
+        select = scanner.nextInt();
 
         if (select > 0 && select <= products.size()) {
             Product selectedProduct = products.get(select - 1);

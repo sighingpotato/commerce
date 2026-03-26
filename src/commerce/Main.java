@@ -28,6 +28,8 @@ public class Main {
         allCategories.add(cloths);
         allCategories.add(food);
 
+        CommerceSystem system = new CommerceSystem(allCategories);
+        system.start();
 
     }
 }
