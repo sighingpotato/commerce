@@ -30,6 +30,5 @@ public class Main {
 
         CommerceSystem system = new CommerceSystem(allCategories);
         system.start();
-
     }
 }

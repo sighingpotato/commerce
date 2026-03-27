@@ -44,7 +44,7 @@ public class CommerceSystem {
 
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
-            System.out.println((i + 1) + ". " + product.getName() + "     | " + product.getPrice() + "원 | " + product.getDescription());
+            System.out.printf("%d. %-12s | %,10d원 | %s\n", (i + 1), product.getName(), product.getPrice(), product.getDescription());
         }
         System.out.println("0. 뒤로가기");
         System.out.print("입력 -> ");
@@ -54,7 +54,7 @@ public class CommerceSystem {
 
         if (select > 0 && select <= products.size()) {
             Product selectedProduct = products.get(select - 1);
-            System.out.println(("선택한 상품: " + selectedProduct.getName() + " | " + selectedProduct.getPrice() + " | " + selectedProduct.getDescription() + " | " + selectedProduct.getStock()));
+            System.out.printf("%-5s | %,5d원 | %s\n", selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getDescription(), selectedProduct.getStock());
         }
     }
 }
