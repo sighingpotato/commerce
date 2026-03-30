@@ -23,4 +23,11 @@ public class Product {
 
     // 재고 변경 setter
     public void setStock(int stock) { this.stock = stock; }
+    // 관리자가 가격과 설명 수정 가능하도록 setter 추가
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
