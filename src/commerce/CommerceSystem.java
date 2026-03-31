@@ -268,7 +268,7 @@ public class CommerceSystem {
         if (select == 0)
             return;
 
-        List<Product> filteredProducts = new ArrayList<>();
+        List<Product> filteredProducts;
 
         if (select == 1) {
             filteredProducts = category.getProducts();
@@ -285,6 +285,11 @@ public class CommerceSystem {
             System.out.println("\n[ 100만원 초과 상품 목록 ]");
         } else {
             System.out.println("잘못된 입력입니다.");
+            return;
+        }
+
+        if (filteredProducts.isEmpty()) {
+            System.out.println("조건에 맞는 상품이 없습니다.");
             return;
         }
 
@@ -317,12 +322,26 @@ public class CommerceSystem {
             System.out.println("1. 확인       2. 취소");
             System.out.print("입력 -> ");
 
-            int select2;
-            select2 = scanner.nextInt();
+            int choice;
+            choice = scanner.nextInt();
             scanner.nextLine();
 
-            if (select2 == 1) {
-                cart.add(new CartItem(selectedProduct, 1));
+            if (choice == 1) {
+                boolean alreadyInCart = false;
+
+                // 이미 담긴 상품인지 확인
+                for(CartItem item : cart) {
+                    if(item.getProduct().getName().equals(selectedProduct.getName())) {
+                        item.addQuantity(1);
+                        alreadyInCart = true;
+                        break;
+                    }
+                }
+
+                // 담긴 상품이 아니면 새로 추가
+                if (!alreadyInCart) {
+                    cart.add(new CartItem(selectedProduct, 1));
+                }
                 System.out.println(selectedProduct.getName()+ "가 장바구니에 추가되었습니다.\n");
             } else {
                 System.out.println("취소되었습니다.\n");
