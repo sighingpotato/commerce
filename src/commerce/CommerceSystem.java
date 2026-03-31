@@ -3,6 +3,7 @@ package commerce;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CommerceSystem {
     private List<Category> categories;
@@ -254,19 +255,55 @@ public class CommerceSystem {
     private void showCategory(Category category) {
         System.out.println("\n[ " + category.getCategoryName() + " 카테고리 " + "]");
         List<Product> products = category.getProducts();
-
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            System.out.printf("%d. %-12s | %,10d원 | %s\n", (i + 1), product.getName(), product.getPrice(), product.getDescription());
-        }
+        System.out.println("1. 전체 상품 보기");
+        System.out.println("2. 가격대별 필터링 (100만원 이하)");
+        System.out.println("3. 가격대별 필터링 (100만원 초과)");
         System.out.println("0. 뒤로가기");
         System.out.print("입력 -> ");
 
         int select;
         select = scanner.nextInt();
+        scanner.nextLine();
 
-        if (select > 0 && select <= products.size()) {
-            Product selectedProduct = products.get(select - 1);
+        if (select == 0)
+            return;
+
+        List<Product> filteredProducts = new ArrayList<>();
+
+        if (select == 1) {
+            filteredProducts = category.getProducts();
+            System.out.println("\n[ 전체 상품 목록 ]");// 전체 상품 보기
+        } else if (select == 2) {
+            filteredProducts = category.getProducts().stream() // 가격이 100만 이하 걸러내고 리스트로 묶기
+                    .filter(product -> product.getPrice() <= 1000000)
+                    .collect(Collectors.toList());
+            System.out.println("\n[ 100만원 이하 상품 목록 ]");
+        } else if (select == 3) {
+            filteredProducts = category.getProducts().stream()
+                    .filter(product -> product.getPrice() > 1000000) // 100만 초과 걸러내고 리스트로 묶기
+                    .collect(Collectors.toList());
+            System.out.println("\n[ 100만원 초과 상품 목록 ]");
+        } else {
+            System.out.println("잘못된 입력입니다.");
+            return;
+        }
+
+        for (int i = 0; i < filteredProducts.size(); i++) { // products.size() -> filteredProducts.size()로 바꿔준다.
+            Product product = filteredProducts.get(i);
+            System.out.printf("%d. %-12s | %,10d원 | %s | 재고: %d개\n", (i + 1), product.getName(), product.getPrice(), product.getDescription(), product.getStock());
+        }
+        System.out.println("0. 뒤로가기");
+        System.out.print("입력 -> ");
+
+        int productSelect;
+        productSelect = scanner.nextInt();
+        scanner.nextLine();
+
+        if (productSelect == 0)
+            return;
+
+        if (productSelect > 0 && productSelect <= filteredProducts.size()) {
+            Product selectedProduct = filteredProducts.get(productSelect - 1);
 
             // 재고 확인
             if (selectedProduct.getStock() <= 0) {
@@ -274,7 +311,7 @@ public class CommerceSystem {
                 return;
             }
 
-            System.out.printf("%-5s | %,5d원 | %s | 재고: %d개\n", selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getDescription(), selectedProduct.getStock());
+            System.out.printf("\n선택한 상품: %-5s | %,5d원 | %s | 재고: %d개\n", selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getDescription(), selectedProduct.getStock());
             // 장바구니 추가
             System.out.println("위 상품을 장바구니에 추가하시겠습니까?");
             System.out.println("1. 확인       2. 취소");
@@ -282,6 +319,7 @@ public class CommerceSystem {
 
             int select2;
             select2 = scanner.nextInt();
+            scanner.nextLine();
 
             if (select2 == 1) {
                 cart.add(new CartItem(selectedProduct, 1));
@@ -316,6 +354,28 @@ public class CommerceSystem {
         orderSelect = scanner.nextInt();
 
         if (orderSelect == 1) {
+            System.out.println("\n고객 등급을 입력해주세요.");
+            System.out.println("1. BRONZE   :  0% 할인");
+            System.out.println("2. SILVER   :  5% 할인");
+            System.out.println("3. GOLD     : 10% 할인");
+            System.out.println("4. PLATINUM : 15% 할인");
+            System.out.print("입력 -> ");
+
+            int gradeSelect = scanner.nextInt();
+            scanner.nextLine();
+
+            // enum의 values() 사용
+            CustomerGrade[] grades = CustomerGrade.values();
+            CustomerGrade selectedGrade = grades[gradeSelect - 1]; // 1입력 시 0번째부터
+
+            // 할인 금액 계산
+            int discountPrice = (int) (totalPrice * selectedGrade.getDiscountRate()); // int * double 이므로 괄호 안에 필요한 타입을 넣어준다.
+            int lastPrice = totalPrice - discountPrice;
+
+            System.out.println("\n주문이 완료되었습니다!");
+            System.out.printf("할인 전 금액: %,d원\n", totalPrice);
+            System.out.printf("%s 등급 할인(%.0f%%): -%,d원\n", selectedGrade.name(), selectedGrade.getDiscountRate() * 100, discountPrice);
+
             for (int i =0; i < cart.size(); i++) {
                 CartItem item = cart.get(i);
                 Product selectedProduct = item.getProduct();
@@ -328,7 +388,8 @@ public class CommerceSystem {
                 System.out.printf("%s 재고가 %d개 → %d개로 업데이트되었습니다.\n", selectedProduct.getName(), oldStock, newStock);
             }
 
-            System.out.printf("주문이 완료되었습니다! 총 금액: %,d원\n", totalPrice);
+            System.out.printf("최종 결제 금액: %,d원\n", lastPrice);
+
             cart.clear();
         }
     }
