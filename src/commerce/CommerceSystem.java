@@ -255,7 +255,7 @@ public class CommerceSystem {
 
     private void showCategory(Category category) {
         System.out.println("\n[ " + category.getCategoryName() + " 카테고리 " + "]");
-//        List<Product> products = category.getProducts();  filteredProducts 생성 후 사용 안함
+//        List<Product> products = category.getProducts();  아래에 새로운 리스트 filteredProducts 생성 후 사용 안함
         System.out.println("1. 전체 상품 보기");
         System.out.println("2. 가격대별 필터링 (100만원 이하)");
         System.out.println("3. 가격대별 필터링 (100만원 초과)");
