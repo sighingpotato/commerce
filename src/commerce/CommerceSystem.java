@@ -65,7 +65,7 @@ public class CommerceSystem {
                 System.out.println("잘못된 입력입니다.");
             }
         }
-        scanner.close();
+        scanner.close(); // 종료 이후 while 문 반복을 탈출하고, 프로그램이 꺼지기 직전에 사용
     }
 
     // 6번 내 checkAdminPassword 선언
