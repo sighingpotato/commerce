@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class CommerceSystem {
     private List<Category> categories;
     private List<CartItem> cart;
-//    cart = new ArrayList<>();
+//    cart = new ArrayList<>(); 속성이 들어가는 곳에서는 바로 대입 불가
     private Scanner scanner = new Scanner(System.in);
 
     public CommerceSystem(List<Category> categories) {
@@ -65,6 +65,7 @@ public class CommerceSystem {
                 System.out.println("잘못된 입력입니다.");
             }
         }
+        scanner.close();
     }
 
     // 6번 내 checkAdminPassword 선언
@@ -254,7 +255,7 @@ public class CommerceSystem {
 
     private void showCategory(Category category) {
         System.out.println("\n[ " + category.getCategoryName() + " 카테고리 " + "]");
-        List<Product> products = category.getProducts();
+//        List<Product> products = category.getProducts();  filteredProducts 생성 후 사용 안함
         System.out.println("1. 전체 상품 보기");
         System.out.println("2. 가격대별 필터링 (100만원 이하)");
         System.out.println("3. 가격대별 필터링 (100만원 초과)");
